@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="hzq-security-app" />
+        <module name="hzq-security-browser" />
+        <module name="hzq-security-core" />
+        <module name="hzq-security-demo" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="hzq-security-app" target="1.8" />
+      <module name="hzq-security-browser" target="1.8" />
+      <module name="hzqsecurityapp" target="1.5" />
+      <module name="hzqsecuritybrowser" target="1.5" />
+      <module name="hzqsecuritycore" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
