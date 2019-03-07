@@ -69,4 +69,9 @@ public class UserController {
     public void deleteUser(@PathVariable String id){
         System.out.println("id = [" + id + "]");
     }
+
+    @GetMapping("he")
+    public String tt(){
+        return "hello";
+    }
 }
