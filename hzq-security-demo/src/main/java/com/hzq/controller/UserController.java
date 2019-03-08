@@ -2,6 +2,9 @@ package com.hzq.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.hzq.dto.User;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -18,6 +21,7 @@ public class UserController {
 
     @GetMapping
     @JsonView(User.UserSimpleView.class)
+    @ApiOperation(value = "查询所有用户")
     public List<User> getAllUser(@PageableDefault(page = 2,size = 17,sort = "username,asc") Pageable pageable){
         List<User> list=new ArrayList<>(3);
         list.add(new User());
@@ -28,6 +32,7 @@ public class UserController {
 
     @GetMapping("/{id:\\d+}")//表示只能是数字
     @JsonView(User.UserDetailView.class)
+    @ApiOperation(value = "查询用户详情")
     public User getInfo(@PathVariable String id){
         User user=new User();
         user.setUsername("tom");
@@ -42,6 +47,7 @@ public class UserController {
      * @return
      */
     @PostMapping
+    @ApiOperation(value = "添加用户")
     public User addUser(@Valid @RequestBody User user, BindingResult erros){
         if(erros.hasErrors()){
             erros.getAllErrors().stream().forEach(error-> System.out.println(error.getDefaultMessage()));
@@ -66,7 +72,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id:\\d+}")//表示只能是数字
-    public void deleteUser(@PathVariable String id){
+    public void deleteUser(@ApiParam("用户id") @PathVariable String id){
         System.out.println("id = [" + id + "]");
     }
 

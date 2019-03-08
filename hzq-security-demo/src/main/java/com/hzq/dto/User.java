@@ -1,6 +1,7 @@
 package com.hzq.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Past;
@@ -10,7 +11,7 @@ public class User {
 
     public interface UserSimpleView {};
     public interface UserDetailView extends UserSimpleView {}
-
+    @ApiModelProperty(value = "用户名")
     private String username;
 
     @NotBlank(message = "密码不能为空")
