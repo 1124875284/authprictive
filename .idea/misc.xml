@@ -5,12 +5,12 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/hzq-security-app/pom.xml" />
+        <option value="$PROJECT_DIR$/hzq-security-browser/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/hzq-security-app/pom.xml" />
-        <option value="$PROJECT_DIR$/hzq-security-browser/pom.xml" />
         <option value="$PROJECT_DIR$/hzq.security-core/pom.xml" />
       </set>
     </option>

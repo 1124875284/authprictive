@@ -9,6 +9,10 @@ spring:
     store-type: none
 server:
   port: 16008
-security:
-  basic:
-    enabled: false
+#security:
+#  basic:
+#    enabled: false
+hzq:
+  security:
+    browser:
+      loginPage: "/demo-signIn.html"
