@@ -7,11 +7,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 /**
  * Security 的核心配置类
@@ -31,6 +37,11 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     private AuthenticationFailureHandler myAuthenticationFailureHandler;
+    @Autowired
+    private DataSource dataSource;
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     /**
      * 对于密码加密
      *
@@ -41,6 +52,17 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * 记住我的一些配置
+     * @return
+     */
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository(){
+        JdbcTokenRepositoryImpl tokenRepository=new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+        //tokenRepository.setCreateTableOnStartup(true);
+        return tokenRepository;
+    }
     /**
      * 配置拦截信息
      *
@@ -57,18 +79,24 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .addFilterBefore(validateCodeFilter,UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
-                .loginPage("/authentication/require")
-                .loginProcessingUrl("/authention/form")
-                .successHandler(myAuthenticationSuccessHandler)
-                .failureHandler(myAuthenticationFailureHandler)
-                .and()
-                .authorizeRequests() //表示下面这些都是是授权配置
-                .antMatchers("/authentication/require",
-                        securityProperties.getBrowser().getLonginPage(),
-                        "/code/image").permitAll() //不需要验证的
-                .anyRequest() //任何请求
-                .authenticated() //都需要身份认证
-                .and()
-                .csrf().disable();
+                    .loginPage("/authentication/require")
+                    .loginProcessingUrl("/authention/form")
+                    .successHandler(myAuthenticationSuccessHandler)
+                    .failureHandler(myAuthenticationFailureHandler)
+                    .and()
+                 .rememberMe()
+                    .tokenRepository(persistentTokenRepository())
+                    .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
+                    //用来登录
+                    .userDetailsService(userDetailsService)
+                    .and()
+                    .authorizeRequests() //表示下面这些都是是授权配置
+                    .antMatchers("/authentication/require",
+                            securityProperties.getBrowser().getLonginPage(),
+                            "/code/image").permitAll() //不需要验证的
+                    .anyRequest() //任何请求
+                    .authenticated() //都需要身份认证
+                    .and()
+                    .csrf().disable();
     }
 }

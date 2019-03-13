@@ -1,23 +1,20 @@
 package com.hzq.security.core.properties;
 
+import lombok.Data;
+
+/**
+ * 与浏览器相关的配置
+ */
+@Data
 public class BrowserProperties {
 
     private String longinPage="/hzq-signIn.html";
 
     private LoginType loginType=LoginType.JSON;
-    public String getLonginPage() {
-        return longinPage;
-    }
+    /**
+     * 记住我  的时间
+     */
+    private int rememberMeSeconds=3600;
 
-    public LoginType getLoginType() {
-        return loginType;
-    }
 
-    public void setLoginType(LoginType loginType) {
-        this.loginType = loginType;
-    }
-
-    public void setLonginPage(String longinPage) {
-        this.longinPage = longinPage;
-    }
 }
