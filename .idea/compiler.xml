@@ -14,7 +14,6 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="hzq-security-app" target="1.8" />
       <module name="hzqsecurityapp" target="1.5" />
       <module name="hzqsecuritybrowser" target="1.5" />
       <module name="hzqsecuritycore" target="1.5" />

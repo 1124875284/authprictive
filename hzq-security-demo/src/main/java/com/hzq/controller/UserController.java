@@ -6,6 +6,10 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +22,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    /**
+     * userDetails 只想要用户的部分信息
+     * Authentication  用户的所有信息
+     * @param authentication
+     * @return
+     */
+    @GetMapping("/me")
+    public Object getCurrentUser(@AuthenticationPrincipal UserDetails userDetails){
+        //return SecurityContextHolder.getContext().getAuthentication();
+        return userDetails;
+    }
 
     @GetMapping
     @JsonView(User.UserSimpleView.class)
