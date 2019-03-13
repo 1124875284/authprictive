@@ -11,8 +11,14 @@ server:
 #security:
 #  basic:
 #    enabled: false
-#hzq:
-#  security:
+hzq:
+  security:
 #    browser:
-#      #loginPage: /demo-signIn.html
-#      loginType: REDIRECT
+#      loginPage: /demo-signIn.html
+      #loginType: REDIRECT
+    # 图片验证码的配置
+    code:
+      image:
+        length: 6
+        width: 100
+        url: "/user,/user/*"
