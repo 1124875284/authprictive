@@ -1,20 +1,28 @@
-package com.hzq.security.core.validate.code;
+package com.hzq.security.core.validate.code.image;
 
 import com.hzq.security.core.properties.SecurityProperties;
+import com.hzq.security.core.validate.code.ValidateCode;
+import com.hzq.security.core.validate.code.ValidateCodeGenerator;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+
+@Component("imageCodeGenerator")
 @Data
-public class ValidateCodeGeneratorServiceImpl implements ValidateCodeGeneratorService {
+public class ImageCodeGenerator implements ValidateCodeGenerator {
+    /**
+     * 系统配置
+     */
     @Autowired
     private SecurityProperties securityProperties;
     @Override
-    public ImageCode createImageCode(ServletWebRequest request) {
+    public ValidateCode generate(ServletWebRequest request) {
         int width = ServletRequestUtils.getIntParameter(request.getRequest(),"width",securityProperties.getCode().getImage().getWidth());
         int height = ServletRequestUtils.getIntParameter(request.getRequest(),"height",securityProperties.getCode().getImage().getHeight());;
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -68,4 +76,5 @@ public class ValidateCodeGeneratorServiceImpl implements ValidateCodeGeneratorSe
         int b = fc + random.nextInt(bc - fc);
         return new Color(r, g, b);
     }
+
 }

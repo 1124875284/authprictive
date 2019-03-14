@@ -93,7 +93,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                     .authorizeRequests() //表示下面这些都是是授权配置
                     .antMatchers("/authentication/require",
                             securityProperties.getBrowser().getLonginPage(),
-                            "/code/image").permitAll() //不需要验证的
+                            "/code/*").permitAll() //不需要验证的
                     .anyRequest() //任何请求
                     .authenticated() //都需要身份认证
                     .and()
