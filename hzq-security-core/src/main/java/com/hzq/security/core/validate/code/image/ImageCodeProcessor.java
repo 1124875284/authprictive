@@ -16,7 +16,7 @@ import org.springframework.web.context.request.ServletWebRequest;
  * @author huangzhiqiang
  *
  */
-@Component("imageCodeProcessor")
+@Component("imageValidateCodeProcessor")
 public class ImageCodeProcessor extends AbstractValidateCodeProcessor<ImageCode> {
 
 	/**

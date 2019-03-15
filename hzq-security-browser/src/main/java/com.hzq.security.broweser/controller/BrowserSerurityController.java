@@ -50,6 +50,7 @@ public class BrowserSerurityController {
 
             }
         }
+        response.sendRedirect("/hzq-signIn.html");
         return new SimpleResponse("您访问的服务器需要身份认证，请引导用户到登录页");
 
     }

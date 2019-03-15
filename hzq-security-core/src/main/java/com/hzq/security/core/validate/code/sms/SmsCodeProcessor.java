@@ -16,7 +16,7 @@ import org.springframework.web.context.request.ServletWebRequest;
  * @author huangzhiqiang
  *
  */
-@Component("smsCodeProcessor")
+@Component("smsValidateCodeProcessor")
 public class SmsCodeProcessor extends AbstractValidateCodeProcessor<ValidateCode> {
 	/**
 	 * 短信验证码发送器
