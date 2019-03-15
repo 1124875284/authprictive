@@ -13,7 +13,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-@Component("imageCodeGenerator")
+@Component("imageValidateCodeGenerator")
 @Data
 public class ImageCodeGenerator implements ValidateCodeGenerator {
     /**

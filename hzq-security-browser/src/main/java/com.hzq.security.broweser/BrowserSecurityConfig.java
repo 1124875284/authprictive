@@ -1,20 +1,18 @@
 package com.hzq.security.broweser;
 
+import com.hzq.security.core.authentication.AbstractChannelSecurityConfig;
+import com.hzq.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.hzq.security.core.properties.SecurityConstants;
 import com.hzq.security.core.properties.SecurityProperties;
-import com.hzq.security.core.validate.code.ValidateCodeFilter;
+import com.hzq.security.core.validate.code.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
@@ -23,25 +21,18 @@ import javax.sql.DataSource;
  * Security 的核心配置类
  */
 @Configuration
-public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
+public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     @Autowired
     private SecurityProperties securityProperties;
-
-    /**
-     * 自定义登录成功的处理
-     */
-    @Autowired
-    private AuthenticationSuccessHandler myAuthenticationSuccessHandler;
-    /**
-     * 自定义登录失败的处理
-     */
-    @Autowired
-    private AuthenticationFailureHandler myAuthenticationFailureHandler;
     @Autowired
     private DataSource dataSource;
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
+    @Autowired
+    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
     /**
      * 对于密码加密
      *
@@ -71,19 +62,13 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        ValidateCodeFilter validateCodeFilter=new ValidateCodeFilter();
-        validateCodeFilter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);
-        validateCodeFilter.setSecurityProperties(securityProperties);
-        validateCodeFilter.afterPropertiesSet();
+
+        applyPasswordAuthenticationConfig(http);
         //表单
-        http
-                .addFilterBefore(validateCodeFilter,UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
-                    .loginPage("/authentication/require")
-                    .loginProcessingUrl("/authention/form")
-                    .successHandler(myAuthenticationSuccessHandler)
-                    .failureHandler(myAuthenticationFailureHandler)
-                    .and()
+        http.apply(validateCodeSecurityConfig)
+                .and()
+                .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
                  .rememberMe()
                     .tokenRepository(persistentTokenRepository())
                     .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
@@ -91,9 +76,11 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                     .userDetailsService(userDetailsService)
                     .and()
                     .authorizeRequests() //表示下面这些都是是授权配置
-                    .antMatchers("/authentication/require",
+                        .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+                            SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
                             securityProperties.getBrowser().getLonginPage(),
-                            "/code/*").permitAll() //不需要验证的
+                            SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*")
+                    .permitAll() //不需要验证的
                     .anyRequest() //任何请求
                     .authenticated() //都需要身份认证
                     .and()
