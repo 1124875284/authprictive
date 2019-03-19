@@ -14,6 +14,7 @@ server:
 hzq:
   security:
     browser:
+#      loginPage: /demo-signIn.html
       signUpUrl: /demo-signUp.html
       #loginType: REDIRECT
     # 图片验证码的配置
