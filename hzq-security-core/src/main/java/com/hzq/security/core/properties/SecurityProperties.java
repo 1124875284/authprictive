@@ -1,26 +1,16 @@
 package com.hzq.security.core.properties;
 
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "hzq.security")
+@Data
 public class SecurityProperties {
    private BrowserProperties browser=new BrowserProperties();
 
    private ValidateCodeProperties code=new ValidateCodeProperties();
 
-    public ValidateCodeProperties getCode() {
-        return code;
-    }
+   private SocialProperties social = new SocialProperties();
 
-    public void setCode(ValidateCodeProperties code) {
-        this.code = code;
-    }
 
-    public BrowserProperties getBrowser() {
-        return browser;
-    }
-
-    public void setBrowser(BrowserProperties browser) {
-        this.browser = browser;
-    }
 }

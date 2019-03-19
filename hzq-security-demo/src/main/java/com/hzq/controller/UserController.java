@@ -5,15 +5,19 @@ import com.hzq.dto.User;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletWebRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.awt.print.Pageable;
 import java.util.ArrayList;
@@ -23,16 +27,28 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
+    private ProviderSignInUtils providerSignInUtils;
     /**
      * userDetails 只想要用户的部分信息
      * Authentication  用户的所有信息
-     * @param authentication
      * @return
      */
     @GetMapping("/me")
     public Object getCurrentUser(@AuthenticationPrincipal UserDetails userDetails){
         //return SecurityContextHolder.getContext().getAuthentication();
         return userDetails;
+    }
+
+    /**
+     * 注册
+     * @param user
+     */
+    @PostMapping("/regist")
+    public void regist(User user, HttpServletRequest request){
+        //不管是注册用户还是绑定用户，都会有一个唯一标示
+        String userId = user.getUsername();
+        providerSignInUtils.doPostSignUp(userId,new ServletWebRequest(request));
     }
 
     @GetMapping

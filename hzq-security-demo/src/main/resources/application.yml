@@ -1,20 +1,21 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/security?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://localhost:3306/security?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
     password: root
   session:
     store-type: none
 server:
-  port: 16008
+  port: 80
 #security:
 #  basic:
 #    enabled: false
 hzq:
   security:
-#    browser:
-#      loginPage: /demo-signIn.html
+    browser:
+      loginPage: /demo-signIn.html
+      signUpUrl: /demo-signUp.html
       #loginType: REDIRECT
     # 图片验证码的配置
     code:
@@ -22,3 +23,9 @@ hzq:
         length: 6
         width: 100
         url: "/user,/user/*"
+    social:
+      qq:
+        app-id: wxd99431bbff8305a0
+        app-secret: 60f78681d063590a469f1b297feff3c4
+        providerId: "callback.do"
+    filterProcessesUrl: "qqLogin"

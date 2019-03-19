@@ -16,5 +16,7 @@ public class BrowserProperties {
      */
     private int rememberMeSeconds=3600;
 
+    private String signUpUrl="/hzq-signUp.html";
+
 
 }

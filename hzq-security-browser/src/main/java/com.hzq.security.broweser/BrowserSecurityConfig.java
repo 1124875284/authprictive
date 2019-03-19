@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
@@ -33,6 +34,8 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
     @Autowired
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+    @Autowired
+    private SpringSocialConfigurer hzqSocialSecurityConfig;
     /**
      * 对于密码加密
      *
@@ -66,9 +69,11 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
         applyPasswordAuthenticationConfig(http);
         //表单
         http.apply(validateCodeSecurityConfig)
-                .and()
+                    .and()
                 .apply(smsCodeAuthenticationSecurityConfig)
-                .and()
+                    .and()
+                .apply(hzqSocialSecurityConfig)
+                    .and()
                  .rememberMe()
                     .tokenRepository(persistentTokenRepository())
                     .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
@@ -79,7 +84,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                         .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                             SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
                             securityProperties.getBrowser().getLonginPage(),
-                            SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*")
+                            SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
+                                securityProperties.getBrowser().getSignUpUrl(),
+                                "user/regist","www.pinzhi365.com/qqLogin/callback.do")
                     .permitAll() //不需要验证的
                     .anyRequest() //任何请求
                     .authenticated() //都需要身份认证
