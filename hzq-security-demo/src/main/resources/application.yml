@@ -14,18 +14,20 @@ server:
 hzq:
   security:
     browser:
-      loginPage: /demo-signIn.html
       signUpUrl: /demo-signUp.html
       #loginType: REDIRECT
     # 图片验证码的配置
-    code:
-      image:
-        length: 6
-        width: 100
-        url: "/user,/user/*"
+#    code:
+#      image:
+#        length: 6
+#        width: 100
+#        url: "/user,/user/*"
     social:
       qq:
         app-id: wxd99431bbff8305a0
         app-secret: 60f78681d063590a469f1b297feff3c4
         providerId: "callback.do"
+      weixin:
+        app-id: wxd99431bbff8305a0
+        app-secret: 60f78681d063590a469f1b297feff3c4
     filterProcessesUrl: "qqLogin"

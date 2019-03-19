@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hzq.security.core.social.qq;
+package com.hzq.security.core.social;
 
 import javax.sql.DataSource;
 

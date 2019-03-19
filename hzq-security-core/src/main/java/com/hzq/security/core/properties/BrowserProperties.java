@@ -8,15 +8,15 @@ import lombok.Data;
 @Data
 public class BrowserProperties {
 
-    private String longinPage="/hzq-signIn.html";
-
+    private String longinPage=SecurityConstants.DEFAULT_LOGIN_PAGE_URL;
+    private String signUpUrl="/hzq-signUp.html";
     private LoginType loginType=LoginType.JSON;
     /**
      * 记住我  的时间
      */
     private int rememberMeSeconds=3600;
 
-    private String signUpUrl="/hzq-signUp.html";
+
 
 
 }
