@@ -1,5 +1,6 @@
 package com.hzq.security.broweser;
 
+import com.hzq.security.broweser.authacttion.session.HzqExpiredSessionStrategy;
 import com.hzq.security.core.authentication.AbstractChannelSecurityConfig;
 import com.hzq.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.hzq.security.core.properties.SecurityConstants;
@@ -12,8 +13,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
@@ -36,6 +40,15 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
     @Autowired
     private SpringSocialConfigurer hzqSocialSecurityConfig;
+
+    @Autowired
+    private InvalidSessionStrategy invalidSessionStrategy;
+
+    @Autowired
+    private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
+
+    @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
     /**
      * 对于密码加密
      *
@@ -80,12 +93,29 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                     //用来登录
                     .userDetailsService(userDetailsService)
                     .and()
+                .sessionManagement()
+                //处理Session过期的地址
+                    .invalidSessionStrategy(invalidSessionStrategy)
+                //设置session最大数量
+                    .maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())
+                //当session达到最大数量时，阻止后面的用户登录
+                    .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin())
+                    .expiredSessionStrategy(sessionInformationExpiredStrategy)
+                    .and()
+                    .and()
+                .logout()
+                    .logoutUrl("/signOut")
+                    .logoutSuccessHandler(logoutSuccessHandler)
+                    .logoutSuccessUrl("/hzq-logout.html")
+                    .deleteCookies("JSESSIONID")
+                .and()
                     .authorizeRequests() //表示下面这些都是是授权配置
                         .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                             SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
-                            securityProperties.getBrowser().getLonginPage(),
+                            securityProperties.getBrowser().getSignInPage(),
                             SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
-                                securityProperties.getBrowser().getSignUpUrl(),"/user/regist")
+                                securityProperties.getBrowser().getSignUpUrl(),"/user/regist","/session/invalid",
+                                securityProperties.getBrowser().getSignOutUrl())
                     .permitAll() //不需要验证的
                     .anyRequest() //任何请求
                     .authenticated() //都需要身份认证

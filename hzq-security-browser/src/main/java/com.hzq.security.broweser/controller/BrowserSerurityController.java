@@ -2,6 +2,7 @@ package com.hzq.security.broweser.controller;
 
 import com.hzq.security.broweser.suppot.SimpleResponse;
 import com.hzq.security.broweser.suppot.SocialUserInfo;
+import com.hzq.security.core.properties.SecurityConstants;
 import com.hzq.security.core.properties.SecurityProperties;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -45,7 +46,7 @@ public class BrowserSerurityController {
      * @param response
      * @return
      */
-    @RequestMapping("/authentication/require")
+    @RequestMapping(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     public SimpleResponse  requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
         SavedRequest savedRequest=requestCache.getRequest(request,response);
@@ -53,7 +54,7 @@ public class BrowserSerurityController {
             String targetUrl = savedRequest.getRedirectUrl();
             logger.info("引发跳转的请求是"+targetUrl);
             if (StringUtils.endsWithIgnoreCase(targetUrl,".html")){
-                redirectStrategy.sendRedirect(request,response,securityProperties.getBrowser().getLonginPage());
+                redirectStrategy.sendRedirect(request,response,securityProperties.getBrowser().getSignInPage());
 
             }
         }
@@ -69,5 +70,11 @@ public class BrowserSerurityController {
         userInfo.setHeadimg(connection.getImageUrl());
         return userInfo;
 
+    }
+    @GetMapping("/session/invalid")
+    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+    public SimpleResponse sessionInvalid(){
+        String message="session失效";
+        return new SimpleResponse(message);
     }
 }

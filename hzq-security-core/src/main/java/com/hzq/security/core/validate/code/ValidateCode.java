@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * 短信
  */
-public class ValidateCode {
+public class ValidateCode implements Serializable {
 
     private String code;
 

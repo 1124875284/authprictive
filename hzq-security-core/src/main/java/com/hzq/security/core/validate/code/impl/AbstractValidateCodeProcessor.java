@@ -62,7 +62,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 	 * @param validateCode
 	 */
 	private void save(ServletWebRequest request, C validateCode) {
-		sessionStrategy.setAttribute(request, getSessionKey(request), validateCode);
+		ValidateCode code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
+		//只把验证码和过期时间放到session里  不放图片
+		sessionStrategy.setAttribute(request, getSessionKey(request), code);
 	}
 
 	/**

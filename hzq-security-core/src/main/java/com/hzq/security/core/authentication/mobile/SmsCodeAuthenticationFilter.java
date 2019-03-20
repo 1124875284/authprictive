@@ -1,5 +1,6 @@
 package com.hzq.security.core.authentication.mobile;
 
+import com.hzq.security.core.properties.SecurityConstants;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,9 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SmsCodeAuthenticationFilter extends
         AbstractAuthenticationProcessingFilter {
 
-    public static final String HZQ_FORM_MOBILE_KEY = "mobile";
-
-    private String mobileParameter = HZQ_FORM_MOBILE_KEY;
+    private String mobileParameter = SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE;
     private boolean postOnly = true;
 
 
