@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 
 import com.hzq.security.core.properties.SecurityProperties;
 import com.hzq.security.core.social.HzqSpringSocialConfifurer;
+import com.hzq.security.core.suppot.SocialAuthenticationFilterPostProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +37,8 @@ public class SocialConfig extends SocialConfigurerAdapter {
 
 	@Autowired(required =false)
 	private ConnectionSignUp connectionSignUp;
+	@Autowired(required = false)
+	private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
 
 	@Override
 	public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
@@ -46,13 +49,16 @@ public class SocialConfig extends SocialConfigurerAdapter {
 		}
 		return repository;
 	}
-	
+	/**
+	 * 社交登录配置类，供浏览器或app模块引入设计登录配置用。
+	 * @return
+	 */
 	@Bean
 	public SpringSocialConfigurer hzqSocialSecurityConfig() {
 		String filterProcessesUrl=securityProperties.getSocial().getFilterProcessesUrl();
-		HzqSpringSocialConfifurer confifurer=new HzqSpringSocialConfifurer(filterProcessesUrl);
-		confifurer.signupUrl(securityProperties.getBrowser().getSignUpUrl());
-		return confifurer;
+		HzqSpringSocialConfifurer configurer=new HzqSpringSocialConfifurer(filterProcessesUrl);
+		configurer.setSocialAuthenticationFilterPostProcessor(socialAuthenticationFilterPostProcessor);
+		return configurer;
 	}
 
 	/**

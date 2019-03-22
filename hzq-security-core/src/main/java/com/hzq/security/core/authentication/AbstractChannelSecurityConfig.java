@@ -25,7 +25,7 @@ public class AbstractChannelSecurityConfig extends WebSecurityConfigurerAdapter 
 	public void applyPasswordAuthenticationConfig(HttpSecurity http) throws Exception {
 		http.formLogin()
 			.loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
-			.loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM)
+			.loginProcessingUrl(SecurityConstants.DEFAULT_SIGN_IN_PAGE_URL)
 			.successHandler(myAuthenticationSuccessHandler)
 			.failureHandler(myAuthenticationFailureHandler);
 	}

@@ -48,6 +48,6 @@ public class MyUserDetailService implements UserDetailsService,SocialUserDetails
         String password = passwordEncoder.encode("123");
         logger.info("数据库中存的密码为"+password);
         return new SocialUser(userId,password,
-                true,true,true,true,AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+                true,true,true,true,AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN"));
     }
 }

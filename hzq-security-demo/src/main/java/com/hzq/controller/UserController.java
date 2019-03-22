@@ -29,15 +29,31 @@ public class UserController {
 
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
+    //	@Autowired
+//	private AppSingUpUtils appSingUpUtils;
+
+//	@Autowired
+//	private SecurityProperties securityProperties;
+
     /**
      * userDetails 只想要用户的部分信息
      * Authentication  用户的所有信息
      * @return
      */
     @GetMapping("/me")
-    public Object getCurrentUser(@AuthenticationPrincipal UserDetails userDetails){
+    public Object getCurrentUser(Authentication user, HttpServletRequest request){
         //return SecurityContextHolder.getContext().getAuthentication();
-        return userDetails;
+        //使用JWT获取的用户信息
+// 		String token = StringUtils.substringAfter(request.getHeader("Authorization"), "bearer ");
+//
+//		Claims claims = Jwts.parser().setSigningKey(securityProperties.getOauth2().getJwtSigningKey().getBytes("UTF-8"))
+//					.parseClaimsJws(token).getBody();
+//
+//		String company = (String) claims.get("company");
+//
+//		System.out.println(company);
+
+        return user;
     }
 
     /**
@@ -49,6 +65,7 @@ public class UserController {
         //不管是注册用户还是绑定用户，都会有一个唯一标示
         String userId = user.getUsername();
         providerSignInUtils.doPostSignUp(userId,new ServletWebRequest(request));
+//		appSingUpUtils.doPostSignUp(new ServletWebRequest(request), userId);
     }
 
     @GetMapping

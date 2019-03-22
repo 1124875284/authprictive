@@ -1,8 +1,8 @@
 package com.hzq.security.broweser;
 
-import com.hzq.security.broweser.authacttion.session.HzqExpiredSessionStrategy;
 import com.hzq.security.core.authentication.AbstractChannelSecurityConfig;
 import com.hzq.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.hzq.security.core.authorize.AuthorizeConfigManager;
 import com.hzq.security.core.properties.SecurityConstants;
 import com.hzq.security.core.properties.SecurityProperties;
 import com.hzq.security.core.validate.code.ValidateCodeSecurityConfig;
@@ -49,15 +49,14 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
     @Autowired
     private LogoutSuccessHandler logoutSuccessHandler;
+    @Autowired
+    private AuthorizeConfigManager authorizeConfigManager;
     /**
      * 对于密码加密
      *
      * @return
      */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 
     /**
      * 记住我的一些配置
@@ -109,17 +108,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                     .logoutSuccessUrl("/hzq-logout.html")
                     .deleteCookies("JSESSIONID")
                 .and()
-                    .authorizeRequests() //表示下面这些都是是授权配置
-                        .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-                            SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
-                            securityProperties.getBrowser().getSignInPage(),
-                            SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
-                                securityProperties.getBrowser().getSignUpUrl(),"/user/regist","/session/invalid",
-                                securityProperties.getBrowser().getSignOutUrl())
-                    .permitAll() //不需要验证的
-                    .anyRequest() //任何请求
-                    .authenticated() //都需要身份认证
-                    .and()
                     .csrf().disable();
+        authorizeConfigManager.config(http.authorizeRequests());
     }
 }

@@ -4,7 +4,7 @@
 package com.hzq.security.broweser.logout;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hzq.security.broweser.suppot.SimpleResponse;
+import com.hzq.security.core.suppot.SimpleResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

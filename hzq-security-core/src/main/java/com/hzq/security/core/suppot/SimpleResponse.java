@@ -1,4 +1,4 @@
-package com.hzq.security.broweser.suppot;
+package com.hzq.security.core.suppot;
 
 
 public class SimpleResponse {

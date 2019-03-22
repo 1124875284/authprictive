@@ -1,6 +1,6 @@
 package com.hzq.security.broweser.controller;
 
-import com.hzq.security.broweser.suppot.SimpleResponse;
+import com.hzq.security.core.suppot.SimpleResponse;
 import com.hzq.security.broweser.suppot.SocialUserInfo;
 import com.hzq.security.core.properties.SecurityConstants;
 import com.hzq.security.core.properties.SecurityProperties;

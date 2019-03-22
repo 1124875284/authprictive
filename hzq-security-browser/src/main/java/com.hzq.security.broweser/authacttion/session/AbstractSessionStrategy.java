@@ -4,7 +4,7 @@
 package com.hzq.security.broweser.authacttion.session;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hzq.security.broweser.suppot.SimpleResponse;
+import com.hzq.security.core.suppot.SimpleResponse;
 import com.hzq.security.core.properties.SecurityProperties;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;

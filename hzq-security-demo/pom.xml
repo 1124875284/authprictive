@@ -12,9 +12,14 @@
     <artifactId>hzq-security-demo</artifactId>
 
     <dependencies>
+        <!--<dependency>-->
+            <!--<groupId>com.hzq.security</groupId>-->
+            <!--<artifactId>hzq-security-browser</artifactId>-->
+            <!--<version>${hzq.security.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.hzq.security</groupId>
-            <artifactId>hzq-security-browser</artifactId>
+            <artifactId>hzq-security-app</artifactId>
             <version>${hzq.security.version}</version>
         </dependency>
         <dependency>
