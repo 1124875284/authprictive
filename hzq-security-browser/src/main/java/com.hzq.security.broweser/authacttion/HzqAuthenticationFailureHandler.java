@@ -2,7 +2,7 @@ package com.hzq.security.broweser.authacttion;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hzq.security.core.suppot.SimpleResponse;
-import com.hzq.security.core.properties.LoginType;
+import com.hzq.security.core.properties.LoginResponseType;
 import com.hzq.security.core.properties.SecurityProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component("myAuthenticationFailureHandler")
-public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+@Component("hzqAuthenticationFailureHandler")
+public class HzqAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     private Logger logger=LoggerFactory.getLogger(getClass());
     @Autowired
@@ -32,13 +32,12 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
 
 
         logger.info("登录失败");
-        if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())){
-            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        if (LoginResponseType.JSON.equals(securityProperties.getBrowser().getSignInResponseType())) {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
-        }else {
-            //跳转
-            super.onAuthenticationFailure(request,response,exception);
+        }else{
+            super.onAuthenticationFailure(request, response, exception);
         }
 
 

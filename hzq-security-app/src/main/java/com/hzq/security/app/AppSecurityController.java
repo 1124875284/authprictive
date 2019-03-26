@@ -6,7 +6,7 @@ package com.hzq.security.app;
 import com.hzq.security.app.social.AppSingUpUtils;
 import com.hzq.security.core.properties.SecurityConstants;
 import com.hzq.security.core.social.SocialController;
-import com.hzq.security.core.suppot.SocialUserInfo;
+import com.hzq.security.core.social.suppot.SocialUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.social.connect.Connection;

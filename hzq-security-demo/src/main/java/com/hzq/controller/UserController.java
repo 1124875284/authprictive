@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -119,7 +120,6 @@ public class UserController {
         System.out.println(user.getUsername());
         return user;
     }
-
     @DeleteMapping("/{id:\\d+}")//表示只能是数字
     public void deleteUser(@ApiParam("用户id") @PathVariable String id){
         System.out.println("id = [" + id + "]");

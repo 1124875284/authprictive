@@ -12,20 +12,17 @@
     <artifactId>hzq-security-demo</artifactId>
 
     <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>com.hzq.security</groupId>-->
-            <!--<artifactId>hzq-security-browser</artifactId>-->
-            <!--<version>${hzq.security.version}</version>-->
-        <!--</dependency>-->
+
         <dependency>
             <groupId>com.hzq.security</groupId>
-            <artifactId>hzq-security-app</artifactId>
+            <artifactId>hzq-security-browser</artifactId>
             <version>${hzq.security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
+
 
         <dependency>
             <groupId>org.projectlombok</groupId>

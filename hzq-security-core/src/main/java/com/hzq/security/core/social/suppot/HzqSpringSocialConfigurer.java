@@ -1,18 +1,17 @@
-package com.hzq.security.core.social;
+package com.hzq.security.core.social.suppot;
 
-import com.hzq.security.core.suppot.SocialAuthenticationFilterPostProcessor;
 import org.springframework.social.security.SocialAuthenticationFilter;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 /**
  * @author  黄志强
  */
-public class HzqSpringSocialConfifurer extends SpringSocialConfigurer {
+public class HzqSpringSocialConfigurer extends SpringSocialConfigurer {
 
     private String filterProcessesUrl;
 
     private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
-    public HzqSpringSocialConfifurer(String filterProcessesUrl) {
+    public HzqSpringSocialConfigurer(String filterProcessesUrl) {
         this.filterProcessesUrl = filterProcessesUrl;
     }
 

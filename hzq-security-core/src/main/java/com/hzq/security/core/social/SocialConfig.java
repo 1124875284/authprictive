@@ -6,8 +6,8 @@ package com.hzq.security.core.social;
 import javax.sql.DataSource;
 
 import com.hzq.security.core.properties.SecurityProperties;
-import com.hzq.security.core.social.HzqSpringSocialConfifurer;
-import com.hzq.security.core.suppot.SocialAuthenticationFilterPostProcessor;
+import com.hzq.security.core.social.suppot.HzqSpringSocialConfigurer;
+import com.hzq.security.core.social.suppot.SocialAuthenticationFilterPostProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,7 +56,8 @@ public class SocialConfig extends SocialConfigurerAdapter {
 	@Bean
 	public SpringSocialConfigurer hzqSocialSecurityConfig() {
 		String filterProcessesUrl=securityProperties.getSocial().getFilterProcessesUrl();
-		HzqSpringSocialConfifurer configurer=new HzqSpringSocialConfifurer(filterProcessesUrl);
+		HzqSpringSocialConfigurer configurer=new HzqSpringSocialConfigurer(filterProcessesUrl);
+		configurer.signupUrl(securityProperties.getBrowser().getSignUpUrl());
 		configurer.setSocialAuthenticationFilterPostProcessor(socialAuthenticationFilterPostProcessor);
 		return configurer;
 	}
@@ -67,6 +68,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
 	 */
 	@Bean
 	public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator){
-		return new ProviderSignInUtils(connectionFactoryLocator,getUsersConnectionRepository(connectionFactoryLocator));
+		return new ProviderSignInUtils(connectionFactoryLocator,
+				getUsersConnectionRepository(connectionFactoryLocator));
 	}
 }

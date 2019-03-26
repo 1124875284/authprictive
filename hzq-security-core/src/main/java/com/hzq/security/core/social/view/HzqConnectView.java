@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hzq.security.core.social;
+package com.hzq.security.core.social.view;
 
 import java.util.Map;
 

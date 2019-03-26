@@ -3,7 +3,7 @@
  */
 package com.hzq.security.core.social;
 
-import com.hzq.security.core.suppot.SocialUserInfo;
+import com.hzq.security.core.social.suppot.SocialUserInfo;
 import org.springframework.social.connect.Connection;
 
 /**

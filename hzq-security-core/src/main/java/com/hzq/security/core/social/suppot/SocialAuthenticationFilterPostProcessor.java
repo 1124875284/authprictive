@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hzq.security.core.suppot;
+package com.hzq.security.core.social.suppot;
 
 import org.springframework.social.security.SocialAuthenticationFilter;
 

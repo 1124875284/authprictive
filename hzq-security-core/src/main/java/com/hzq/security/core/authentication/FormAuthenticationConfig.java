@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.hzq.security.core.authentication.mobile;
+package com.hzq.security.core.authentication;
 
 import com.hzq.security.core.properties.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ public class FormAuthenticationConfig {
 
 	@Autowired
 	protected AuthenticationSuccessHandler hzqAuthenticationSuccessHandler;
-	
 	@Autowired
 	protected AuthenticationFailureHandler hzqAuthenticationFailureHandler;
 	

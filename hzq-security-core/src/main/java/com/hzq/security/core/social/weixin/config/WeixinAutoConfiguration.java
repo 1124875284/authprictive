@@ -5,7 +5,7 @@ package com.hzq.security.core.social.weixin.config;
 
 import com.hzq.security.core.properties.SecurityProperties;
 import com.hzq.security.core.properties.WeixinProperties;
-import com.hzq.security.core.social.HzqConnectView;
+import com.hzq.security.core.social.view.HzqConnectView;
 import com.hzq.security.core.social.weixin.connect.WeixinConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

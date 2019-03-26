@@ -4,7 +4,7 @@
 package com.hzq.security.app.social;
 
 import com.hzq.security.core.properties.SecurityConstants;
-import com.hzq.security.core.suppot.HzqSpringSocialConfigurer;
+import com.hzq.security.core.social.suppot.HzqSpringSocialConfigurer;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;

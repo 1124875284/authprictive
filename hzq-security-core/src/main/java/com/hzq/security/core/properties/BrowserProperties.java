@@ -15,7 +15,7 @@ public class BrowserProperties {
     /**
      * 登录响应的方式，默认是json
      */
-    private LoginType loginType=LoginType.JSON;
+    private LoginResponseType signInResponseType = LoginResponseType.JSON;
     /**
      * 登录页面，当引发登录行为的url以html结尾时，会跳到这里配置的url上
      */

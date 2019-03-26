@@ -1,6 +1,5 @@
 package com.hzq.security.core.authentication.mobile;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,15 +21,18 @@ import java.util.UUID;
  */
 @Component
 public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
-    @Autowired
-    private AuthenticationFailureHandler myAuthenticationFailureHandler;
-    @Autowired
-    private AuthenticationSuccessHandler myAuthenticationSuccessHandler;
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final AuthenticationFailureHandler myAuthenticationFailureHandler;
+    private final AuthenticationSuccessHandler myAuthenticationSuccessHandler;
+    private final UserDetailsService userDetailsService;
 
-    @Autowired
-    private  PersistentTokenRepository persistentTokenRepository;
+    private final PersistentTokenRepository persistentTokenRepository;
+
+    public SmsCodeAuthenticationSecurityConfig(AuthenticationFailureHandler myAuthenticationFailureHandler, AuthenticationSuccessHandler myAuthenticationSuccessHandler, UserDetailsService userDetailsService, PersistentTokenRepository persistentTokenRepository) {
+        this.myAuthenticationFailureHandler = myAuthenticationFailureHandler;
+        this.myAuthenticationSuccessHandler = myAuthenticationSuccessHandler;
+        this.userDetailsService = userDetailsService;
+        this.persistentTokenRepository = persistentTokenRepository;
+    }
 
     @Override
     public void configure(HttpSecurity http) {

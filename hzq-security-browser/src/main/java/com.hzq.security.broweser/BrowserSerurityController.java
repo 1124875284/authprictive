@@ -1,7 +1,8 @@
-package com.hzq.security.broweser.controller;
+package com.hzq.security.broweser;
 
+import com.hzq.security.core.social.SocialController;
+import com.hzq.security.core.social.suppot.SocialUserInfo;
 import com.hzq.security.core.suppot.SimpleResponse;
-import com.hzq.security.broweser.suppot.SocialUserInfo;
 import com.hzq.security.core.properties.SecurityConstants;
 import com.hzq.security.core.properties.SecurityProperties;
 import org.apache.commons.lang.StringUtils;
@@ -27,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
-public class BrowserSerurityController {
+public class BrowserSerurityController extends SocialController {
 
     private Logger logger=LoggerFactory.getLogger(getClass());
 
@@ -53,22 +54,17 @@ public class BrowserSerurityController {
         if (savedRequest!=null){
             String targetUrl = savedRequest.getRedirectUrl();
             logger.info("引发跳转的请求是"+targetUrl);
-            if (StringUtils.endsWithIgnoreCase(targetUrl,".html")){
+            if (StringUtils.endsWithIgnoreCase(targetUrl,",html")){
                 redirectStrategy.sendRedirect(request,response,securityProperties.getBrowser().getSignInPage());
 
             }
         }
         return new SimpleResponse("您访问的服务器需要身份认证，请引导用户到登录页");
     }
-    @GetMapping("/social/user")
+    @GetMapping(SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL)
     public SocialUserInfo getSocialUserInfo(HttpServletRequest request){
-        SocialUserInfo userInfo=new SocialUserInfo();
         Connection<?> connection = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
-        userInfo.setProviderId(connection.getKey().getProviderId());
-        userInfo.setProviderUserId(connection.getKey().getProviderUserId());
-        userInfo.setNickName(connection.getDisplayName());
-        userInfo.setHeadimg(connection.getImageUrl());
-        return userInfo;
+        return buildSocialUserInfo(connection);
 
     }
     @GetMapping("/session/invalid")

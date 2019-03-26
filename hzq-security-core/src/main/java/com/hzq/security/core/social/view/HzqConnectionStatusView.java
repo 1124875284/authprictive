@@ -1,4 +1,4 @@
-package com.hzq.security.core.social;
+package com.hzq.security.core.social.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections.CollectionUtils;
